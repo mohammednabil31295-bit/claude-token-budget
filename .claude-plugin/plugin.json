@@ -1,0 +1,14 @@
+{
+  "name": "token-budget",
+  "version": "0.1.0",
+  "description": "Catch runaway context spend, explain the cause with evidence, and hand off cleanly to a fresh session.",
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "Bash|Read|Grep|Glob|WebFetch",
+      "hooks": [{"type":"command","command":"${CLAUDE_PLUGIN_ROOT}/hooks/big-output-watch.sh 2>/dev/null || true","timeout":10}]
+    }],
+    "PreCompact": [{
+      "hooks": [{"type":"command","command":"${CLAUDE_PLUGIN_ROOT}/hooks/precompact-handoff.sh 2>/dev/null || true","timeout":10}]
+    }]
+  }
+}
