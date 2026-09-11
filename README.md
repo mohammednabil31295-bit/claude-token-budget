@@ -27,7 +27,7 @@ tried, next step — so a fresh session continues without re-deriving anything.
 ## Install
 
 ```
-/plugin marketplace add <your-github-username>/claude-token-budget
+/plugin marketplace add mohammednabil31295-bit/claude-token-budget
 /plugin install token-budget@token-budget-marketplace
 ```
 
