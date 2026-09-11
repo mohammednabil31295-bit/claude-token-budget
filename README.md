@@ -7,6 +7,18 @@ Claude Code has no built-in tripwire for token usage. This adds one.
 
 ## What it does
 
+**Blocks waste before it happens.** A `PreToolUse` hook refuses Bash commands whose
+output is predictably huge and unbounded — unscoped recursive greps, full-tree
+`find`, `git log` with no limit, foreground installs and builds, `cat` on a large
+file — and hands back the bounded equivalent. The expensive output never enters
+context at all. Already-bounded commands (`| head`, `-m5`, `--include`, a redirect)
+pass untouched.
+
+**Checks broad requests.** A `UserPromptSubmit` hook notices when a request is
+phrased to cover "the entire codebase" / "all the files" and asks Claude to price
+the exhaustive version and offer a scoped alternative first. It never blocks your
+prompt — if you reaffirm, the full version proceeds.
+
 **Measures.** A `PostToolUse` hook flags any tool result over ~25k characters
 (~6k tokens) with its size, the call that produced it, and a session running
 total. Silent below the threshold.
